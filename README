@@ -1,0 +1,10 @@
+this project rely the following jar files:
+
+commons-codec-1.5.jar
+commons-io-2.0.1.jar
+commons-lang3-3.0-beta.jar
+dom4j-2.0.0-ALPHA-2.jar
+log4j-1.2.16.jar
+
+if you use Berkely DB as the url filter, this jar file should also include into the classpath
+je-4.1.7.jar
