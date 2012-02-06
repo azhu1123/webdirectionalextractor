@@ -148,8 +148,10 @@ public class RegularLoader {
 	@SuppressWarnings("unchecked")
 	private ExtractedProcessor newProcessor (Element p) {
 		try {
-			return ((Class<ExtractedProcessor>)Class.forName(p.attributeValue("classPath"))).newInstance();
+			return ((Class<ExtractedProcessor>)Class.forName(p.attributeValue("classPath")))
+				.newInstance();
 		}  catch (Exception e) {
+			log.error(p.attributeValue("classPath"));
 			RuntimeException re = new RuntimeException();
 			re.initCause(e);
 			throw re;

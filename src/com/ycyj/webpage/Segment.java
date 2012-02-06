@@ -18,7 +18,7 @@ import com.ycyj.webpage.filter.*;
  * @author ÷Ï¡¡
  *
  */
-public abstract class Segment {
+public abstract class Segment implements Cloneable{
 	
 		
 	/**
@@ -50,7 +50,13 @@ public abstract class Segment {
 		this(name, level, regex);
 		this.filters = f;
 	}
-
+	
+	
+	public Segment (Segment o) {
+		this(o.name, o.level, o.regex);
+		this.filters = o.filters;			// the filter is single instance in one application
+	}
+		
 	
 	public void setWebPage (WebPage page){
 		this.pageHTML = page.html;
@@ -75,7 +81,11 @@ public abstract class Segment {
 ////		this.filter = filter;
 //	}
 
-	
+
+	public static void main(String[] args) {
+		Segment s = new Links ("",0,null);
+		System.out.println(s.getClass().getName());
+	}
 	
 
 }

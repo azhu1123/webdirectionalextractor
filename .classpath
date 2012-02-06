@@ -8,5 +8,6 @@
 	<classpathentry kind="lib" path="lib/je-4.1.7.jar"/>
 	<classpathentry kind="lib" path="lib/log4j-1.2.16.jar"/>
 	<classpathentry kind="lib" path="lib/commons-codec-1.5.jar"/>
+	<classpathentry kind="lib" path="lib/commons-collections-3.2.1.jar" sourcepath="D:/lib/apache-commons/commons-collections-3.2.1/commons-collections-3.2.1-sources.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

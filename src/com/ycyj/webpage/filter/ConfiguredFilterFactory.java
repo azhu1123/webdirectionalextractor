@@ -3,7 +3,11 @@ package com.ycyj.webpage.filter;
 import java.util.*;
 import java.util.regex.*;
 
+import org.apache.log4j.Logger;
+
 public class ConfiguredFilterFactory {
+	
+	static final Logger log = Logger.getLogger(ConfiguredFilterFactory.class);
 	
 	enum Type {
 		intercept,
@@ -11,7 +15,7 @@ public class ConfiguredFilterFactory {
 		classPath,
 	}
 	
-	private static Map<String, Filter> filters = new HashMap<String, Filter>();
+	private static final Map<String, Filter> filters = new HashMap<String, Filter>();
 	
 	public static Filter product (String type,String replaceReg, String replacement, String group, String classPath) {
 		switch (Type.valueOf(type)) {
@@ -23,18 +27,25 @@ public class ConfiguredFilterFactory {
 		
 		case classPath:
 			try {
-				if (filters.containsKey(classPath))
-					return filters.get(classPath);
-				
-				Object filterObject = Class.forName(classPath).newInstance();
-				if (filterObject instanceof Filter) {
-					Filter filter = (Filter)filterObject;
-					filters.put(classPath, filter);
-					return filter;
+				synchronized (filters) {
+					if (filters.containsKey(classPath)) {
+						log.debug("re-use the filter : " + classPath);
+						return filters.get(classPath);
+					}
+
+					log.warn ("new filter: " + classPath);
+					Object filterObject = Class.forName(classPath)
+							.newInstance();
+					if (filterObject instanceof Filter) {
+						Filter filter = (Filter) filterObject;
+						filters.put(classPath, filter);
+						return filter;
+					}
+
+					else
+						throw new RuntimeException("wrong class path : "
+								+ classPath);
 				}
-				
-				else
-					throw new RuntimeException("wrong class path : " + classPath);
 			} catch (Exception e) {
 				e.printStackTrace();
 				throw new RuntimeException("wrong class path : " + classPath);

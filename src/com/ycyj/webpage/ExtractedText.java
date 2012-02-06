@@ -2,6 +2,8 @@ package com.ycyj.webpage;
 
 import java.util.*;
 
+import org.apache.log4j.Logger;
+
 import com.ycyj.webpage.filter.*;
 import com.ycyj.webpage.processor.ExtractedProcessor;
 import com.ycyj.webpage.util.Regex;
@@ -9,6 +11,8 @@ import com.ycyj.webpage.util.Regex;
 
 
 public class ExtractedText extends Segment{
+	
+	static Logger log = Logger.getLogger(ExtractedText.class);
 	
 	/**
 	 * 抽取出来的文本的处理类
@@ -19,6 +23,12 @@ public class ExtractedText extends Segment{
 		super (name, level, regex);
 	}
 	
+	public ExtractedText (Segment s) {
+		super (s);
+		
+		if (s instanceof ExtractedText)
+			setProcessors(((ExtractedText)s).processors);
+	}
 	
 	public ExtractedText(String name,  int level, Regex regex, List<ExtractedProcessor> ps) {
 		super (name, level, regex);
@@ -54,7 +64,8 @@ public class ExtractedText extends Segment{
 			if (this.resultContent.size() == 0)
 				break;
 			
-			resultContent.add(this.url);	//TODO 在最后把该片段的URL加上？
+			resultContent.add(this.url);	// 在最后把该片段的URL加上
+//			log.error("building\t" + resultContent.get(0) + "\t" + resultContent.get(2)+"\t");
 			processOne();
 		}
 	}
@@ -62,8 +73,9 @@ public class ExtractedText extends Segment{
 	@Override
 	protected void processOne() {
 		if (filter())
-			for (ExtractedProcessor p : processors)
+			for (ExtractedProcessor p : processors) {
 				p.process(resultContent);
+			}
 	}
 	
 	static final int filterIndex = 0; // 过滤器只针对抽取文本的第一个捕获组起作用

@@ -5,6 +5,10 @@ import java.util.*;
 import com.ycyj.webpage.util.Regex;
 
 public class Subdirectory extends Segment{
+	
+	public Subdirectory (Segment s) {
+		super (s);
+	}
 
 	List<Segment> segments = new ArrayList<Segment>();
 

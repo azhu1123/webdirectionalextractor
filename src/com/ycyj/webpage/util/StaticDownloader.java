@@ -34,19 +34,22 @@ public class StaticDownloader {
 		String content_encoding = conn.getContentEncoding();
 		String content_charset = getCharset (conn.getContentType());	
 		
-		int off = getResponseContent(conn, b ,"gzip".equalsIgnoreCase(content_encoding));
+		synchronized (b) {
+			int off = getResponseContent(conn, b, "gzip"
+					.equalsIgnoreCase(content_encoding));
 
-		String content = new String (b, 0 ,off, content_charset);
-		String checkedCharset = doubleCheckCharsetInsideHTML (content, content_charset); 
-		if (checkedCharset != content_charset)
-			content = new String (b, 0 ,off, checkedCharset);
-		
-		WebPage page = new WebPage (url, content, checkedCharset);
+			String content = new String(b, 0, off, content_charset);
+			String checkedCharset = doubleCheckCharsetInsideHTML(content,
+					content_charset);
+			if (checkedCharset != content_charset)
+				content = new String(b, 0, off, checkedCharset);
+
+			return new WebPage(url, content, checkedCharset);
+		}
 //		page.setLastModified(new Date(last));
 //		page.setDownloadTime(new Date());
 		
-		sleep ();
-		return page;
+		
 	}
 	
 	static void sleep () {
