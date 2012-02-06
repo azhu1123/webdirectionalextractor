@@ -1,7 +1,5 @@
 package com.ycyj.webpage.filter;
 
-import java.util.*;
-
 import org.apache.commons.codec.digest.DigestUtils;
 import org.apache.commons.collections.map.LRUMap;
 import org.apache.log4j.Logger;
