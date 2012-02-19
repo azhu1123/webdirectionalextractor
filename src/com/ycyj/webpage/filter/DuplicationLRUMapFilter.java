@@ -7,10 +7,11 @@ import org.apache.log4j.Logger;
 public class DuplicationLRUMapFilter implements DuplicationFilter{
 	private static Logger log = Logger.getLogger(DuplicationLRUMapFilter.class);
 	
-	LRUMap map = new LRUMap(5000, 0.8f);
+	LRUMap map = new LRUMap(10000, 0.8f);
 	
 	public DuplicationLRUMapFilter () {
 		log.warn("initializing a LRU Map filter.");
+		// TODO:load recently down loaded pages
 	}
 
 	public boolean remove(String input) {
@@ -58,14 +59,10 @@ public class DuplicationLRUMapFilter implements DuplicationFilter{
 	public static void main (String[] args) {
 		DuplicationLRUMapFilter d = new DuplicationLRUMapFilter();
 		
-		String in1 = "dabc".substring(1);
-		String s1 = d.getKey(in1);
-		System.out.println(s1);
-		
+		String in1 = "dabc"
+			//.substring(1)
+			;
 		String in2 = "abc";
-		String s2 = d.getKey(in2);
-		System.out.println(s2);
-		
 		
 		System.out.println(d.filter(in1));
 		System.out.println(d.filter(in2));

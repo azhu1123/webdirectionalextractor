@@ -4,7 +4,7 @@ import java.io.IOException;
 import java.lang.reflect.Constructor;
 import java.text.SimpleDateFormat;
 import java.util.*;
-import java.util.regex.*;
+//import java.util.regex.*;
 
 import org.apache.log4j.Logger;
 
@@ -85,7 +85,6 @@ public class Links extends Segment{
 		return true;
 	}
 	
-	
 	/**
 	 * 将当前抽取出来的链接，下载到对应的网页
 	 * @param downloadURL
@@ -95,8 +94,7 @@ public class Links extends Segment{
 		WebPage page;
 		while (true) {
 			try {
-				page = StaticDownloader
-						.download(downloadURL);
+				page = WebPage.download(downloadURL);
 				if (page != null) {
 					log.debug("successfully download web page : " + page.url);
 					return page;
@@ -129,19 +127,21 @@ public class Links extends Segment{
 		page.process();
 	}
 	
-	
+	// TODO:
 	// used for testing:
 	// get the web page's title, display along with the page's URL
 	// to find the duplications or errors
-	private String getTitle (String html) {
-		Matcher m = TITLE.matcher(html);
-		if (m.find())
-			return m.group(1);
-		return "";
-	}
 	
-	private static Pattern TITLE = Pattern.compile("(?i)<title>(.*?)</title>");
+//	private String getTitle (String html) {
+//		Matcher m = TITLE.matcher(html);
+//		if (m.find())
+//			return m.group(1);
+//		return "";
+//	}
+//	
+//	private static Pattern TITLE = Pattern.compile("(?i)<title>(.*?)</title>");
 	
+	@SuppressWarnings("unchecked")
 	private List<Segment> buildNextLeverSegments (List<Segment> n) throws Exception	 {
 		List<Segment> newBuilt = new ArrayList<Segment> (n.size());
 		for (Segment s : n) {
